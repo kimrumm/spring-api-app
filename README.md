@@ -3,5 +3,23 @@
 
 
 ### 패키지 구조 설계 - 도메인형 패키지 구조
+```
+── java
+   └── com
+       └── app
+           ├── api
+           ├── domain
+           ├── global
+           │   ├── config
+           │   ├── error
+           │   ├── interceptor
+           │   ├── jwt
+           │   ├── resolver
+           │   └── util
+           ├── infra
+           └── web
+
+```
+
 - 도메인별로 응집
 - 유지보수 편리
