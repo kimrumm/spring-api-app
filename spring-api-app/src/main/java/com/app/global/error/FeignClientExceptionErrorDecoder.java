@@ -1,12 +1,12 @@
-package com.app.global.error;
 
-import org.springframework.http.HttpStatus;
+package com.app.global.error;
 
 import feign.FeignException;
 import feign.Response;
 import feign.RetryableException;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 
 @Slf4j
 public class FeignClientExceptionErrorDecoder implements ErrorDecoder {
@@ -15,7 +15,7 @@ public class FeignClientExceptionErrorDecoder implements ErrorDecoder {
 
 	@Override
 	public Exception decode(String methodKey, Response response) {
-		log.error("{} 요청 실패, status : {}, resong : {}", methodKey, response.status(), response.reason());
+		log.error("{} 요청 실패, status : {}. reason : {}", methodKey, response.status(), response.reason());
 		FeignException exception = FeignException.errorStatus(methodKey, response);
 		HttpStatus httpStatus = HttpStatus.valueOf(response.status());
 		if (httpStatus.is5xxServerError()) {
@@ -24,10 +24,9 @@ public class FeignClientExceptionErrorDecoder implements ErrorDecoder {
 				exception.getMessage(),
 				response.request().httpMethod(),
 				exception,
-				null, response.request()
-			);
+				null,
+				response.request());
 		}
 		return errorDecoder.decode(methodKey, response);
 	}
-
 }
